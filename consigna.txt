@@ -1,0 +1,44 @@
+Programación en Nuevas Tecnologías 2
+
+
+Trabajo Práctico Final
+
+Objetivos
+
+
+Integrar en un único trabajo todos los conocimientos adquiridos a lo largo de la materia.
+
+Pasos a seguir para realizar este proyecto:
+
+
+1. Acordar con el grupo de trabajo la aplicación web que desarrollarán. La misma será validada y acotada con el equipo docente para que puedan obtener un producto pequeño pero que cumpla con la funcionalidad “front-end” según los conocimientos adquiridos en la materia.
+
+2. Para la aplicación definir en un documento, claramente y en forma sintética lo siguiente:
+
+a. Objetivo de la aplicación: que hará o permitirá hacer.
+
+b. Funcionalidades de la aplicación: las mismas luego se traducirán en opciones/funcionalidades
+
+
+3. Entrega semanal del proyecto con un incremento visible y comprobable de sus funcionalidades. Toda esta documentación deberá ser subida al excel para que el equipo docente pueda revisarla y darles orientación. El desarrollo del proyecto es en grupos hasta 5 integrantes.
+
+
+Requisitos mínimos del proyecto
+
+Construir el proyecto con vue 3 (composition api), usando vue router, que contenga:
+
+Un login simple de usuarios (cada usuario puede tener distintas vistas)
+
+Al menos un ABM, máximo tres, (altas, bajas y modificaciones), consultando a una fake REST API, como por ejemplo mockapi, o una api generada en otra materia.
+
+
+Algún tipo de informe con los datos ingresados al sistema (visible solo para usuarios administradores).
+
+El proyecto tiene que estar en un repositorio de github, para observar los distintos commits de cada integrante del equipo.
+
+
+Forma de evaluación
+
+Para aprobar el proyecto, el sistema debe estar en funcionamiento un 70% para una nota de 4 a 6 puntos. Superior a 80% notas entre 7 y 10. Se observarán los distintos commits de cada usuario para la nota conceptual.
+
+La entrega final va a ser con una defensa del proyecto donde los integrantes tienen que estar al tanto de cualquier parte de la construcción del mismo.

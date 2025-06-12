@@ -1,10 +1,13 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Home from './components/Home.vue'
 </script>
 
 <template>
   <div>
-    
+    <h1>Welcome to Your Vue.js App</h1>
+    <router-link to="/">Home</router-link>
+    <router-link to="/about">About</router-link>
+    <router-view></router-view>
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>

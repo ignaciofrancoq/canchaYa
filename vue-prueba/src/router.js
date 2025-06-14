@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Canchas from './views/Canchas.vue'
 import Cancha from './views/Cancha.vue'
+
 
 const routes = [
     {

@@ -1,18 +1,27 @@
 <template>
-  <div class="p-4">
-    <h1 class="text-2xl font-bold mb-4">Canchas disponibles</h1>
+  <div>
+    <h1>Canchas disponibles</h1>
 
-    <div v-if="cargando" class="text-gray-500">Cargando...</div>
+    <div v-if="cargando">Cargando...</div>
 
-    <div v-else class="flex flex-col space-y-2">
-      <button
+    <div v-else class="canchas-container">
+      <div
         v-for="cancha in canchas"
         :key="cancha.id"
-        @click="irACancha(cancha.id)"
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-      >
-        {{ cancha.nombre }}
-      </button>
+        class="cancha-card"
+        @click="irACancha(cancha.id)">
+        
+        <img 
+          :src="cancha.foto" 
+          :alt="cancha.nombre"
+          class="cancha-imagen"
+          @error="manejarErrorImagen"
+        />
+        
+        <div class="cancha-info">
+          <h3>{{ cancha.nombre }}</h3>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +50,52 @@ const irACancha = (id) => {
   router.push(`/canchas/${id}`)
 }
 
+const manejarErrorImagen = (event) => {
+  // Imagen por defecto si falla la carga
+  event.target.src = '/placeholder-cancha.jpg'
+}
+
 onMounted(() => {
   obtenerCanchas()
 })
 </script>
+
+<style scoped>
+.canchas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.cancha-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: white;
+}
+
+.cancha-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cancha-imagen {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.cancha-info {
+  padding: 15px;
+}
+
+.cancha-info h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+</style>

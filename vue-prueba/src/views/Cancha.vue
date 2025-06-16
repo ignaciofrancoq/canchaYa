@@ -1,17 +1,22 @@
 <template>
-  <div class="p-6">
-    <h1 class="text-2xl font-bold mb-4">Detalle de la Cancha</h1>
+  <div>
+    <h1>Detalle de la Cancha</h1>
 
     <div v-if="cargando">Cargando...</div>
 
     <div v-else-if="cancha">
-      <h2 class="text-xl font-semibold">{{ cancha.nombre }}</h2>
+      <h2>{{ cancha.nombre }}</h2>
       <p><strong>Dirección:</strong> {{ cancha.direccion }}</p>
       <p><strong>Capacidad:</strong> {{ cancha.capacidad }} personas</p>
-      <p><strong>Foto:</strong> {{ cancha.foto }}</p>
+      <img 
+          :src="cancha.foto" 
+          :alt="cancha.nombre"
+          class="cancha-imagen"
+          @error="manejarErrorImagen"
+        />
     </div>
 
-    <div v-else class="text-red-500">
+    <div v-else>
       No se encontró la cancha.
     </div>
   </div>
@@ -29,7 +34,7 @@ const cargando = ref(true)
 
 const obtenerCancha = async () => {
   try {
-    const res = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/${id}`)
+    const res = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`)
     cancha.value = res.data
   } catch (error) {
     console.error('Error al cargar cancha:', error)

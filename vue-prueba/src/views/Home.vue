@@ -10,8 +10,10 @@ const irACanchas = () => {
 
 <template>
   <h1>{{ msg }}</h1>
+  
 
-  <div class="card">
+
+  <div>
     <button type="button" @click="irACanchas"> Ver Canchas</button>
  </div>
 </template>

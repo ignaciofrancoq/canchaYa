@@ -12,30 +12,26 @@ const routes = [
     {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { requiereAuth: true }
     },
     {
     path: '/about',
     name: 'About',
-    component: About
+    component: About,
+    meta: { requiereAuth: true }
     },
     {
     path: '/canchas',
     name: 'Canchas',
     component: Canchas,
-    beforeEnter: (to, from, next) => {
-      const authStore = useAuthStore()
-      if (authStore.estaAutenticado) {
-        next()
-      } else {
-        next('/login')
-      }
-     }
+    meta: { requiereAuth: true }
     },
     {
     path: '/canchas/:id',
     name: 'CanchaDetail',
-    component: Cancha
+    component: Cancha,
+    meta: { requiereAuth: true }
     },
     {
     path: '/login',
@@ -47,6 +43,15 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  if (to.meta.requiereAuth && !authStore.estaAutenticado) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

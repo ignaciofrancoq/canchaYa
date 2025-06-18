@@ -21,7 +21,7 @@ function iniciarSesion() {
 </script>
 
 <template>
-  <div class="p-4 max-w-md mx-auto">
+  <div class="min-h-screen flex flex-col">
     <h2 class="text-xl font-bold mb-4">Iniciar sesión</h2>
 
     <input v-model="usuario" placeholder="Usuario" class="border p-2 w-full mb-2" />

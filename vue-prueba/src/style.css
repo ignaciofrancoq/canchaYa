@@ -1,3 +1,12 @@
+@import "tailwindcss";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -76,4 +85,26 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+footer {
+  background-color: #121212; /* Fondo oscuro */
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+footer .icon {
+  color: #b3b3b3; /* Color gris claro por defecto */
+  font-size: 24px;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+footer .icon.active {
+  color: #1DB954; /* Verde para el ícono activo */
+}
+
+footer .icon:hover {
+  color: #ffffff; /* Al pasar el mouse */
 }

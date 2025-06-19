@@ -14,6 +14,11 @@
           class="cancha-imagen"
           @error="manejarErrorImagen"
         />
+
+      <div my-8 v-if="cancha.disponible">
+        <button @click="reservarCancha"> Reservar </button>
+      </div>
+
     </div>
 
     <div v-else>
@@ -42,6 +47,20 @@ const obtenerCancha = async () => {
     cargando.value = false
   }
 }
+
+const reservarCancha = async () => {
+  try {
+    const res = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, {
+      "disponible": false
+    });
+    cancha.value = res.data; 
+    console.log('Cancha reservada:', cancha.value);
+    alert('Cancha reservada con éxito!');
+  } catch (error) {
+    console.error('Error al reservar cancha:', error);
+    alert('Hubo un error al intentar reservar la cancha.');
+  }
+};
 
 onMounted(() => {
   obtenerCancha()

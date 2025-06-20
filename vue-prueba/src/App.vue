@@ -28,7 +28,8 @@ const cerrarSesion = () => {
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex flex-col" v-if="estaAutenticado || route.path === '/login'">
+  <div class="min-h-screen w-full flex flex-col bg-gray-50" v-if="authStore.estaAutenticado || route.path === '/login'">
+
     <Header/>
 
     <main class="flex-grow">
@@ -46,7 +47,7 @@ const cerrarSesion = () => {
 
   <div v-else class="text-center mt-10">
     <Header/>
-    <p>No autorizado</p>
+    <p class="text-red-600 font-semibold">No autorizado</p>
     <p>Por favor, inicia sesión para continuar.</p>
     <div>
       <button type="button" @click="irALogin">Volver</button>

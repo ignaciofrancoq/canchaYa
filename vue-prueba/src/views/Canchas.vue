@@ -1,27 +1,60 @@
 <template>
-  <div>
-    <h1>Canchas disponibles</h1>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Canchas Disponibles</h1>
 
-    <div v-if="cargando">Cargando...</div>
+    <div v-if="cargando" class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+      <span class="ml-3 text-gray-600">Cargando canchas...</span>
+    </div>
 
-    <div v-else class="canchas-container">
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <div
         v-for="cancha in canchas"
         :key="cancha.id"
-        class="cancha-card"
-        @click="irACancha(cancha.id)">
+        class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:-translate-y-1 transition-transform duration-200"
+        @click="irACancha(cancha.id)"
+      >
+        <div class="relative">
+          <img 
+            :src="cancha.foto" 
+            :alt="cancha.nombre"
+            class="w-full h-48 object-cover"
+            @error="manejarErrorImagen"
+          />
+          <div class="absolute top-3 right-3">
+            <span 
+              :class="cancha.disponible ? 'bg-green-500' : 'bg-red-500'"
+              class="px-2 py-1 rounded-full text-white text-xs font-semibold"
+            >
+              {{ cancha.disponible ? 'Disponible' : 'Reservada' }}
+            </span>
+          </div>
+        </div>
         
-        <img 
-          :src="cancha.foto" 
-          :alt="cancha.nombre"
-          class="cancha-imagen"
-          @error="manejarErrorImagen"
-        />
-        
-        <div class="cancha-info">
-          <h3>{{ cancha.nombre }}</h3>
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ cancha.nombre }}</h3>
+          <div class="flex items-center text-sm text-gray-600 mb-2">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span class="truncate">{{ cancha.direccion }}</span>
+          </div>
+          <div class="flex items-center text-sm text-gray-600">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span>{{ cancha.capacidad }} personas</span>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div v-if="!cargando && canchas.length === 0" class="text-center py-12">
+      <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+      </svg>
+      <p class="text-gray-600 text-lg">No hay canchas disponibles en este momento.</p>
     </div>
   </div>
 </template>
@@ -51,51 +84,10 @@ const irACancha = (id) => {
 }
 
 const manejarErrorImagen = (event) => {
-  // Imagen por defecto si falla la carga
-  event.target.src = '/placeholder-cancha.jpg'
+  event.target.src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible'
 }
 
 onMounted(() => {
   obtenerCanchas()
 })
 </script>
-
-<style scoped>
-.canchas-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.cancha-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  background: white;
-}
-
-.cancha-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.cancha-imagen {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-}
-
-.cancha-info {
-  padding: 15px;
-}
-
-.cancha-info h3 {
-  margin: 0;
-  font-size: 1.2em;
-  color: #333;
-}
-</style>

@@ -1,17 +1,30 @@
 <script setup>
-
 import Footer from './components/Footer.vue'
 import Header from './components/Header.vue'
 import { useAuthStore } from './stores/authStore'
-const authStore = useAuthStore()
-import { useRoute } from 'vue-router'
-const route = useRoute()
+import { computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
+const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
+
+// ✅ Cargar usuario desde localStorage al iniciar
+onMounted(() => {
+  authStore.cargarUsuarioDesdeLocalStorage()
+})
+
+// Computed para saber si está logueado
+const estaAutenticado = computed(() => authStore.usuarioAutenticado !== null)
+
+// Botón para volver al login
+const irALogin = () => {
+  router.push('/login')
+}
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex flex-col" v-if="authStore.estaAutenticado || route.path === '/login'">
-
+  <div class="min-h-screen w-full flex flex-col" v-if="estaAutenticado || route.path === '/login'">
     <Header/>
 
     <main class="flex-grow">
@@ -19,10 +32,15 @@ const route = useRoute()
     </main>
 
     <Footer/>
-
   </div>
-   <div v-else class="text-center mt-10">
+
+  <div v-else class="text-center mt-10">
+    <Header/>
     <p>No autorizado</p>
+    <p>Por favor, inicia sesión para continuar.</p>
+    <div>
+      <button type="button" @click="irALogin">Volver</button>
+    </div>
+    <Footer/>
   </div>
 </template>
-

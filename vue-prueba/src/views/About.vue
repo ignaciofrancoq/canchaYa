@@ -1,11 +1,17 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 defineProps({
   msg: String,
 })
 
+const router = useRouter()
 const count = ref(0)
+
+const irACanchas = () => {
+  router.push('/canchas')
+}
 </script>
 
 <template>
@@ -116,7 +122,7 @@ const count = ref(0)
     <div class="text-center">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">¿Listo para empezar?</h2>
       <p class="text-gray-600 mb-6">Únete a miles de deportistas que ya confían en nosotros</p>
-      <button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+      <button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200" @click="irACanchas">
         Ver Canchas Disponibles
       </button>
     </div>

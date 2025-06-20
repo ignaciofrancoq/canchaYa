@@ -21,10 +21,6 @@ const estaAutenticado = computed(() => authStore.usuarioAutenticado !== null)
 const irALogin = () => {
   router.push('/login')
 }
-const cerrarSesion = () => {
-  authStore.logout()
-  router.push('/login') // redirige al login después del logout
-}
 </script>
 
 <template>
@@ -35,12 +31,6 @@ const cerrarSesion = () => {
     <main class="flex-grow">
       <router-view />
     </main>
-
-    <div v-if="estaAutenticado" class="text-center mt-10">
-      <button @click="cerrarSesion" class="bg-red-500 text-white px-4 py-2 rounded">
-        Cerrar sesión
-    </button>
-    </div>
 
     <Footer/>
   </div>

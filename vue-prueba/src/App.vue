@@ -21,6 +21,10 @@ const estaAutenticado = computed(() => authStore.usuarioAutenticado !== null)
 const irALogin = () => {
   router.push('/login')
 }
+const cerrarSesion = () => {
+  authStore.logout()
+  router.push('/login') // redirige al login después del logout
+}
 </script>
 
 <template>
@@ -30,6 +34,12 @@ const irALogin = () => {
     <main class="flex-grow">
       <router-view />
     </main>
+
+    <div>
+      <button @click="cerrarSesion" class="bg-red-500 text-white px-4 py-2 rounded">
+        Cerrar sesión
+    </button>
+    </div>
 
     <Footer/>
   </div>

@@ -1,5 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
+const authStore = useAuthStore()
 
 const router = useRouter()
 
@@ -7,7 +9,9 @@ const irACanchas = () => {
   router.push('/canchas')
 }
 const irAUser = () => {
-  router.push('/usuario/1')
+  if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id) {
+    router.push(`/usuario/${authStore.usuarioAutenticado.id}`)
+  }
 }
 </script>
 

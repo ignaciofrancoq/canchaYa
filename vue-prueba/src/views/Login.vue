@@ -27,7 +27,7 @@ async function iniciarSesion() {
 
     if (usuarioEncontrado) {
       authStore.setUsuarioAutenticado(usuarioEncontrado)
-      router.push('/home')
+      router.push('/')
     } else {
       error.value = 'Usuario o contraseña incorrectos'
     }

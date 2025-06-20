@@ -1,26 +1,31 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    usuario: null,
-    estaAutenticado: false,
-  }),
-  actions: {
-    login(usuario, contraseña) {
-      if (usuario === 'admin' && contraseña === '1234') {
-        this.usuario = {
-          nombre: 'Admin',
-          email: 'admin@cancha.com'
-        }
-        this.estaAutenticado = true
-        return true
-      } else {
-        return false
-      }
-    },
-    logout() {
-      this.usuario = null
-      this.estaAutenticado = false
+export const useAuthStore = defineStore('auth', () => {
+  const usuarioAutenticado = ref(null)
+
+  function setUsuarioAutenticado(usuario) {
+    usuarioAutenticado.value = usuario
+    localStorage.setItem('usuario', JSON.stringify(usuario))
+  }
+
+  function logout() {
+    usuarioAutenticado.value = null
+    localStorage.removeItem('usuario')
+  }
+
+  // 👇 Esto ahora es una función que podés llamar desde App.vue
+  function cargarUsuarioDesdeLocalStorage() {
+    const guardado = localStorage.getItem('usuario')
+    if (guardado) {
+      usuarioAutenticado.value = JSON.parse(guardado)
     }
+  }
+
+  return {
+    usuarioAutenticado,
+    setUsuarioAutenticado,
+    logout,
+    cargarUsuarioDesdeLocalStorage
   }
 })

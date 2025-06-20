@@ -10,12 +10,30 @@ const usuario = ref('')
 const contraseña = ref('')
 const error = ref('')
 
-function iniciarSesion() {
-  const success = authStore.login(usuario.value, contraseña.value)
-  if (success) {
-    router.push('/canchas') // redirigimos a la vista principal
-  } else {
-    error.value = 'Usuario o contraseña incorrectos'
+async function iniciarSesion() {
+  error.value = ''
+
+  try {
+    const response = await fetch('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios')
+    const usuarios = await response.json()
+
+    // DEBUG opcional
+    console.log('Usuarios desde la API:', usuarios)
+    console.log('Ingresado:', usuario.value, contraseña.value)
+
+    const usuarioEncontrado = usuarios.find(
+      u => u.usuario === usuario.value.trim() && u.contrasenia === contraseña.value.trim()
+    )
+
+    if (usuarioEncontrado) {
+      authStore.setUsuarioAutenticado(usuarioEncontrado)
+      router.push('/')
+    } else {
+      error.value = 'Usuario o contraseña incorrectos'
+    }
+  } catch (err) {
+    error.value = 'Error al conectar con el servidor'
+    console.error(err)
   }
 }
 </script>

@@ -21,15 +21,6 @@
           </li>
           <li>
             <RouterLink
-              to="/about"
-              class="hover:text-white transition-colors duration-200"
-              :class="{ 'text-[#1DB954]': $route.path === '/about' }"
-            >
-              Sobre nosotros
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
               to="/contact"
               class="hover:text-white transition-colors duration-200"
               :class="{ 'text-[#1DB954]': $route.path === '/contact' }"

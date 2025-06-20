@@ -28,7 +28,7 @@ const cerrarSesion = () => {
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex flex-col bg-gray-50" v-if="authStore.estaAutenticado || route.path === '/login'">
+  <div class="min-h-screen w-full flex flex-col bg-gray-50" v-if="estaAutenticado || route.path === '/login'">
 
     <Header/>
 
@@ -36,7 +36,7 @@ const cerrarSesion = () => {
       <router-view />
     </main>
 
-    <div>
+    <div v-if="estaAutenticado" class="text-center mt-10">
       <button @click="cerrarSesion" class="bg-red-500 text-white px-4 py-2 rounded">
         Cerrar sesión
     </button>

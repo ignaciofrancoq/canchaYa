@@ -77,15 +77,6 @@ const irAUser = () => {
       </div>
     </div>
   </div>
-  <h1>{{ msg }}</h1>
-  
-  <div>
-    <button type="button" @click="irACanchas"> Ver Canchas</button>
-  </div>
-  
-    <div>
-      <button type="button" @click="irAUser"> Perfil</button>
-   </div>
 
 </template>
 

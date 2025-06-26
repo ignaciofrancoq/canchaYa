@@ -34,6 +34,7 @@ async function registrarse() {
     )
 
     if (usuarioExiste) {
+      alert('El usuario ya existe. Elige otro nombre de usuario.')
       error.value = 'El usuario ya existe. Elige otro nombre de usuario.'
       return
     }

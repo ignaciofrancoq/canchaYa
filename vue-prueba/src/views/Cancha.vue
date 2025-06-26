@@ -72,17 +72,16 @@ const eliminarCancha = async () => {
     const resCancha = await axios.delete(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, {
     });
     
-    const usuarioActual = authStore.usuarioAutenticado && authStore.usuarioAutenticado.isAdmin;
+    const usuarioAdmin = authStore.usuarioAutenticado && authStore.usuarioAutenticado.administrador;
 
-    if (!usuarioActual) {
-      alert('No tienes permisos para eliminar esta cancha.');
-      return;
+    if (usuarioAdmin) {
+      cancha.value = resCancha.data;
+      alert('Cancha eliminada con éxito!' );
+      window.location.href = '/canchas';
+    } else {
+      alert('No tienes permisos para eliminar esta cancha.')
     }
     
-    cancha.value = resCancha.data;
-  
-    alert('Cancha eliminada con éxito!' );
-
   } catch (error) {
     console.error('Error al eliminar cancha:', error);
     alert('Hubo un error al intentar eliminar la cancha.');
@@ -155,7 +154,7 @@ const eliminarCancha = async () => {
         </div>
         <div v-if="cancha.disponible" class="h-4"></div>
 
-        <div v-if="cancha.disponible && authStore.usuarioAutenticado && authStore.usuarioAutenticado.isAdmin" class="flex justify-center">
+        <div v-if="cancha.disponible && authStore.usuarioAutenticado && authStore.usuarioAutenticado.administrador" class="flex justify-center">
           <button 
             @click="eliminarCancha"
             class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"

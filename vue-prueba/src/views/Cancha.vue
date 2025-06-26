@@ -144,7 +144,7 @@ const eliminarCancha = async () => {
           </div>
         </div>
 
-        <div v-if="cancha.disponible" class="flex justify-center">
+        <div v-if="cancha.disponible && authStore.usuarioAutenticado && !authStore.usuarioAutenticado.administrador" class="flex justify-center">
           <button 
             @click="reservarCancha"
             class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"

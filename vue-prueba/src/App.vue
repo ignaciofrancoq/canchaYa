@@ -21,7 +21,7 @@ const irALogin = () => {
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex flex-col bg-gray-50" v-if="estaAutenticado || route.path === '/login'">
+  <div class="min-h-screen w-full flex flex-col bg-gray-50" v-if="estaAutenticado || route.path === '/login' || route.path === '/registro'">
 
     <Header/>
 

@@ -430,7 +430,7 @@
     }
   }
 
-const cancelarCancha = async (reservaId) => {
+  const cancelarCancha = async (reservaId) => {
   if (!confirm('¿Estás seguro de que querés cancelar esta reserva?')) {
     return
   }
@@ -450,25 +450,12 @@ const cancelarCancha = async (reservaId) => {
       reservas: nuevasReservas
     }
     
-    const [resUsuario, resCancha] = await Promise.all([
-      axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado),
-      
-      axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`)
-    ])
-    
-    const canchaActualizada = {
-      ...resCancha.data,
-      disponible: true
-    }
-    
-    await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`, canchaActualizada)
-    
-    usuarios.value = resUsuario.data
-    reservas.value = resUsuario.data.reservas
-    
-    if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
-      authStore.setUsuarioAutenticado(resUsuario.data)
-    }
+    // Hacer la petición PUT para actualizar el usuario en la API
+    const res = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado)
+
+    usuarios.value = res.data
+    reservas.value = res.data.reservas
+    reservas.disponible = true
     
     alert('Reserva cancelada correctamente')
     

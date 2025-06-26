@@ -265,16 +265,13 @@
   const reservas = ref([])
   const error = ref(null)
   
-  // Estados para edición de perfil
   const editarPerfil = ref(false)
   
-  // Estados para cambiar nombre
   const nuevoNombre = ref('')
   const contraseñaNombre = ref('')
   const guardandoNombre = ref(false)
   const mensajeNombre = ref(null)
   
-  // Estados para cambiar contraseña
   const contraseñaActual = ref('')
   const nuevaContraseña = ref('')
   const confirmarContraseña = ref('')
@@ -283,18 +280,13 @@
   
   const obtenerUsuario = async () => {
     try {
-      console.log('Obteniendo usuario con ID:', id)
       error.value = null
       const res = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`)
-      console.log('Respuesta de la API:', res.data)
       usuarios.value = res.data
       nuevoNombre.value = res.data.nombre 
       reservas.value = res.data.reservas
     } catch (error) {
-      console.error('Error al cargar usuario:', error)
-      console.error('Detalles del error:', error.response?.data || error.message)
       
-      // Establecer mensaje de error específico
       if (error.response?.status === 404) {
         error.value = 'Usuario no encontrado'
       } else if (error.response?.status >= 500) {
@@ -311,7 +303,6 @@
     obtenerUsuario()
   })
 
-  // Función para cambiar nombre
   const cambiarNombre = async () => {
     if (!nuevoNombre.value.trim() || !contraseñaNombre.value.trim()) {
       mensajeNombre.value = { tipo: 'error', texto: 'Por favor completa todos los campos' }
@@ -322,46 +313,38 @@
     mensajeNombre.value = null
 
     try {
-      // Verificar que la contraseña sea correcta
       if (contraseñaNombre.value !== usuarios.value.contrasenia) {
         mensajeNombre.value = { tipo: 'error', texto: 'La contraseña actual es incorrecta' }
         return
       }
 
-      // Actualizar el nombre en la API
       const res = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, {
         ...usuarios.value,
         nombre: nuevoNombre.value.trim()
       })
 
-      // Actualizar el estado local
       usuarios.value = res.data
       
-      // Actualizar el store si es el usuario actual
       if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
         authStore.setUsuarioAutenticado(res.data)
       }
 
       mensajeNombre.value = { tipo: 'exito', texto: 'Nombre actualizado correctamente' }
       
-      // Limpiar campos
       contraseñaNombre.value = ''
       
-      // Ocultar formulario después de un tiempo
       setTimeout(() => {
         editarPerfil.value = false
         mensajeNombre.value = null
       }, 2000)
 
     } catch (error) {
-      console.error('Error al cambiar nombre:', error)
       mensajeNombre.value = { tipo: 'error', texto: 'Error al actualizar el nombre. Intenta nuevamente.' }
     } finally {
       guardandoNombre.value = false
     }
   }
 
-  // Función para cambiar contraseña
   const cambiarContraseña = async () => {
     if (!contraseñaActual.value.trim() || !nuevaContraseña.value.trim() || !confirmarContraseña.value.trim()) {
       mensajeContraseña.value = { tipo: 'error', texto: 'Por favor completa todos los campos' }
@@ -382,48 +365,40 @@
     mensajeContraseña.value = null
 
     try {
-      // Verificar que la contraseña actual sea correcta
       if (contraseñaActual.value !== usuarios.value.contrasenia) {
         mensajeContraseña.value = { tipo: 'error', texto: 'La contraseña actual es incorrecta' }
         return
       }
 
-      // Actualizar la contraseña en la API
       const res = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, {
         ...usuarios.value,
         contrasenia: nuevaContraseña.value
       })
 
-      // Actualizar el estado local
       usuarios.value = res.data
       
-      // Actualizar el store si es el usuario actual
       if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
         authStore.setUsuarioAutenticado(res.data)
       }
 
       mensajeContraseña.value = { tipo: 'exito', texto: 'Contraseña actualizada correctamente' }
       
-      // Limpiar campos
       contraseñaActual.value = ''
       nuevaContraseña.value = ''
       confirmarContraseña.value = ''
       
-      // Ocultar formulario después de un tiempo
       setTimeout(() => {
         editarPerfil.value = false
         mensajeContraseña.value = null
       }, 2000)
 
     } catch (error) {
-      console.error('Error al cambiar contraseña:', error)
       mensajeContraseña.value = { tipo: 'error', texto: 'Error al actualizar la contraseña. Intenta nuevamente.' }
     } finally {
       guardandoContraseña.value = false
     }
   }
 
-  // Funciones para cancelar cambios
   const cancelarCambioNombre = () => {
     nuevoNombre.value = usuarios.value.nombre
     contraseñaNombre.value = ''
@@ -451,7 +426,6 @@
       router.push('/login')
       
     } catch (error) {
-      console.error('Error al eliminar usuario:', error)
       alert('Error al eliminar la cuenta')
     }
   }
@@ -462,7 +436,6 @@ const cancelarCancha = async (reservaId) => {
   }
   
   try {
-    // Buscar la reserva que se va a cancelar para obtener el ID de la cancha
     const reservaACancelar = reservas.value.find(reserva => reserva.id === reservaId)
     
     if (!reservaACancelar) {
@@ -470,25 +443,19 @@ const cancelarCancha = async (reservaId) => {
       return
     }
     
-    // Crear una nueva lista de reservas sin la reserva cancelada
     const nuevasReservas = reservas.value.filter(reserva => reserva.id !== reservaId)
     
-    // Actualizar el usuario completo con las reservas filtradas
     const usuarioActualizado = {
       ...usuarios.value,
       reservas: nuevasReservas
     }
     
-    // Hacer ambas peticiones en paralelo
     const [resUsuario, resCancha] = await Promise.all([
-      // Actualizar el usuario removiendo la reserva
       axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado),
       
-      // Obtener la cancha para luego actualizarla
       axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`)
     ])
     
-    // Actualizar la cancha para marcarla como disponible
     const canchaActualizada = {
       ...resCancha.data,
       disponible: true
@@ -496,11 +463,9 @@ const cancelarCancha = async (reservaId) => {
     
     await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`, canchaActualizada)
     
-    // Actualizar el estado local
     usuarios.value = resUsuario.data
     reservas.value = resUsuario.data.reservas
     
-    // Actualizar el store si es el usuario actual
     if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
       authStore.setUsuarioAutenticado(resUsuario.data)
     }
@@ -508,7 +473,6 @@ const cancelarCancha = async (reservaId) => {
     alert('Reserva cancelada correctamente')
     
   } catch (error) {
-    console.error('Error al cancelar reserva:', error)
     alert('Error al cancelar la reserva. Intenta nuevamente.')
   }
 }

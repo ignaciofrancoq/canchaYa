@@ -186,12 +186,11 @@
             <div v-for="reserva in reservas" :key="reserva.id" class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
               <div class="flex justify-between items-start">
                 <div>
-                  <h3 class="font-semibold text-gray-900">{{ reserva.cancha }}</h3>
-                  <p class="text-gray-600">{{ reserva.fecha }} - {{ reserva.hora }}</p>
-                  <p class="text-sm text-gray-500">Estado: {{ reserva.estado }}</p>
+                  <h3 class="font-semibold text-gray-900">{{ reserva.nombre }}</h3>
+                  <p class="text-sm text-gray-500"> {{ reserva.direccion }}</p>
                 </div>
                 <div class="flex space-x-2">
-                  <button class="text-red-600 hover:text-red-800 text-sm font-medium">
+                  <button @click="cancelarCancha(reserva.id)" class="text-red-600 hover:text-red-800 text-sm font-medium">
                     Cancelar
                   </button>
                 </div>
@@ -456,4 +455,62 @@
       alert('Error al eliminar la cuenta')
     }
   }
+
+const cancelarCancha = async (reservaId) => {
+  if (!confirm('¿Estás seguro de que querés cancelar esta reserva?')) {
+    return
+  }
+  
+  try {
+    // Buscar la reserva que se va a cancelar para obtener el ID de la cancha
+    const reservaACancelar = reservas.value.find(reserva => reserva.id === reservaId)
+    
+    if (!reservaACancelar) {
+      alert('Reserva no encontrada')
+      return
+    }
+    
+    // Crear una nueva lista de reservas sin la reserva cancelada
+    const nuevasReservas = reservas.value.filter(reserva => reserva.id !== reservaId)
+    
+    // Actualizar el usuario completo con las reservas filtradas
+    const usuarioActualizado = {
+      ...usuarios.value,
+      reservas: nuevasReservas
+    }
+    
+    // Hacer ambas peticiones en paralelo
+    const [resUsuario, resCancha] = await Promise.all([
+      // Actualizar el usuario removiendo la reserva
+      axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado),
+      
+      // Obtener la cancha para luego actualizarla
+      axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`)
+    ])
+    
+    // Actualizar la cancha para marcarla como disponible
+    const canchaActualizada = {
+      ...resCancha.data,
+      disponible: true
+    }
+    
+    await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`, canchaActualizada)
+    
+    // Actualizar el estado local
+    usuarios.value = resUsuario.data
+    reservas.value = resUsuario.data.reservas
+    
+    // Actualizar el store si es el usuario actual
+    if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
+      authStore.setUsuarioAutenticado(resUsuario.data)
+    }
+    
+    alert('Reserva cancelada correctamente')
+    
+  } catch (error) {
+    console.error('Error al cancelar reserva:', error)
+    alert('Error al cancelar la reserva. Intenta nuevamente.')
+  }
+}
+
 </script>

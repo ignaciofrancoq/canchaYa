@@ -6,13 +6,15 @@ import Canchas from './views/Canchas.vue'
 import Cancha from './views/Cancha.vue'
 import Login from './views/Login.vue'
 import Usuario from './views/User.vue'
+import Registro from './views/Registro.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { requiereAuth: true } },
+  {path: '/registro', name: 'Registro', component: Registro },
   { path: '/canchas', name: 'Canchas', component: Canchas, meta: { requiereAuth: true } },
   { path: '/canchas/:id', name: 'CanchaDetail', component: Cancha, meta: { requiereAuth: true } },
   { path: '/usuario/:id', name: 'Usuario', component: Usuario, meta: { requiereAuth: true } },
-  { path: '/login', name: 'Login', component: Login }
+  { path: '/login', name: 'Login', component: Login },
 ]
 
 const router = createRouter({
@@ -20,11 +22,9 @@ const router = createRouter({
   routes
 })
 
-// ✅ Middleware de navegación con carga del usuario
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // 🔒 Cargar desde localStorage si está vacío
   if (!authStore.usuarioAutenticado && localStorage.getItem('usuario')) {
     authStore.setUsuarioAutenticado(JSON.parse(localStorage.getItem('usuario')))
   }

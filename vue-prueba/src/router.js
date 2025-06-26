@@ -12,7 +12,6 @@ const routes = [
   { path: '/canchas', name: 'Canchas', component: Canchas, meta: { requiereAuth: true } },
   { path: '/canchas/:id', name: 'CanchaDetail', component: Cancha, meta: { requiereAuth: true } },
   { path: '/usuario/:id', name: 'Usuario', component: Usuario, meta: { requiereAuth: true } },
-  { path: '/about', name: 'About', component: About, meta: { requiereAuth: true } },
   { path: '/login', name: 'Login', component: Login }
 ]
 

@@ -1,3 +1,86 @@
+
+  
+  <script setup>
+  import { ref, onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
+  import axios from 'axios'
+  import { useAuthStore } from '../stores/authStore.js'
+
+  const authStore = useAuthStore()
+  
+  const route = useRoute()
+  const id = route.params.id
+  const cancha = ref(null)
+  const cargando = ref(true)
+  
+  const obtenerCancha = async () => {
+    try {
+      const res = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`)
+      cancha.value = res.data
+    } catch (error) {
+      console.error('Error al cargar cancha:', error)
+    } finally {
+      cargando.value = false
+    }
+  }
+  
+const reservarCancha = async () => {
+  try {
+    // 1. Crear la instancia del store correctamente
+    const authStore = useAuthStore()
+    
+    // 2. Actualizar la cancha como no disponible
+    const resCancha = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, {
+      "disponible": false,
+      "contadorReservas": (cancha.value.contadorReservas || 0) + 1
+    });
+    
+    cancha.value = resCancha.data;
+    
+    // 3. Obtener las reservas actuales del usuario
+    const usuarioActual = authStore.usuarioAutenticado;
+    const reservasActuales = usuarioActual.reservas || [];
+    
+    // 4. Agregar la nueva reserva (con los datos de la cancha)
+    const nuevaReserva = {
+      id: cancha.value.id,
+      nombre: cancha.value.nombre,
+      direccion: cancha.value.direccion,
+      capacidad: cancha.value.capacidad,
+      foto: cancha.value.foto,
+      fechaReserva: new Date().toISOString()
+    };
+    
+    const reservasActualizadas = [...reservasActuales, nuevaReserva];
+    
+    // 5. Actualizar el usuario en la API
+    await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${authStore.usuarioAutenticado.id}`, {
+      ...usuarioActual,
+      "reservas": reservasActualizadas
+    });
+
+    // 6. Actualizar el authStore
+    const usuarioActualizado = { ...usuarioActual, reservas: reservasActualizadas };
+    authStore.setUsuarioAutenticado(usuarioActualizado);
+    
+    console.log('Cancha reservada:', cancha.value);
+    alert('Cancha reservada con éxito!');
+    
+  } catch (error) {
+    console.error('Error al reservar cancha:', error);
+    alert('Hubo un error al intentar reservar la cancha.');
+  }
+};
+  
+  const manejarErrorImagen = (event) => {
+    event.target.src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible'
+  }
+  
+  onMounted(() => {
+    obtenerCancha()
+  })
+  </script>
+
 <template>
   <div class="max-w-4xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Detalle de la Cancha</h1>
@@ -64,47 +147,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import axios from 'axios'
-
-const route = useRoute()
-const id = route.params.id
-const cancha = ref(null)
-const cargando = ref(true)
-
-const obtenerCancha = async () => {
-  try {
-    const res = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`)
-    cancha.value = res.data
-  } catch (error) {
-    console.error('Error al cargar cancha:', error)
-  } finally {
-    cargando.value = false
-  }
-}
-
-const reservarCancha = async () => {
-  try {
-    const res = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, {
-      "disponible": false
-    });
-    cancha.value = res.data; 
-    console.log('Cancha reservada:', cancha.value);
-    alert('Cancha reservada con éxito!');
-  } catch (error) {
-    console.error('Error al reservar cancha:', error);
-    alert('Hubo un error al intentar reservar la cancha.');
-  }
-};
-
-const manejarErrorImagen = (event) => {
-  event.target.src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible'
-}
-
-onMounted(() => {
-  obtenerCancha()
-})
-</script>

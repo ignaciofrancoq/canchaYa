@@ -1,18 +1,12 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores/authStore'
-const authStore = useAuthStore()
 
 const router = useRouter()
 
 const irACanchas = () => {
   router.push('/canchas')
 }
-const irAUser = () => {
-  if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id) {
-    router.push(`/usuario/${authStore.usuarioAutenticado.id}`)
-  }
-}
+
 </script>
 
 <template>
@@ -36,43 +30,7 @@ const irAUser = () => {
           >
             Ver Canchas Disponibles
           </button>
-          
-          <button class="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200">
-            Cómo Funciona
-          </button>
-        </div>
-      </div>
 
-      <!-- Features Section -->
-      <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Busca</h3>
-          <p class="text-gray-600">Encuentra canchas disponibles cerca de tu ubicación</p>
-        </div>
-
-        <div class="text-center">
-          <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Reserva</h3>
-          <p class="text-gray-600">Reserva tu horario preferido de forma instantánea</p>
-        </div>
-
-        <div class="text-center">
-          <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Disfruta</h3>
-          <p class="text-gray-600">Ve y disfruta de tu deporte favorito</p>
         </div>
       </div>
     </div>

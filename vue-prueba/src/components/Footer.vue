@@ -19,15 +19,6 @@
               Inicio
             </RouterLink>
           </li>
-          <li>
-            <RouterLink
-              to="/contact"
-              class="hover:text-white transition-colors duration-200"
-              :class="{ 'text-[#1DB954]': $route.path === '/contact' }"
-            >
-              Contacto
-            </RouterLink>
-          </li>
         </ul>
       </nav>
     </div>

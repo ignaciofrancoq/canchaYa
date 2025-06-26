@@ -191,9 +191,6 @@
                   <p class="text-sm text-gray-500">Estado: {{ reserva.estado }}</p>
                 </div>
                 <div class="flex space-x-2">
-                  <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                    Editar
-                  </button>
                   <button class="text-red-600 hover:text-red-800 text-sm font-medium">
                     Cancelar
                   </button>
@@ -292,26 +289,8 @@
       const res = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`)
       console.log('Respuesta de la API:', res.data)
       usuarios.value = res.data
-      nuevoNombre.value = res.data.nombre // Pre-llenar el campo de nombre
-      
-      // Aquí podrías cargar las reservas del usuario desde la API
-      // Por ahora usamos datos de ejemplo
-      reservas.value = [
-        {
-          id: 1,
-          cancha: "Cancha 1 - Fútbol 11",
-          fecha: "2024-01-15",
-          hora: "18:00 - 20:00",
-          estado: "Confirmada"
-        },
-        {
-          id: 2,
-          cancha: "Cancha 2 - Fútbol 5",
-          fecha: "2024-01-20",
-          hora: "20:00 - 22:00",
-          estado: "Pendiente"
-        }
-      ]
+      nuevoNombre.value = res.data.nombre 
+      reservas.value = res.data.reservas
     } catch (error) {
       console.error('Error al cargar usuario:', error)
       console.error('Detalles del error:', error.response?.data || error.message)

@@ -46,13 +46,6 @@
           >
             Canchas
           </RouterLink>
-          <RouterLink 
-            to="/about" 
-            class="text-white hover:text-green-200 transition-colors duration-200 font-medium"
-            :class="{ 'text-green-200 border-b-2 border-green-200': $route.path === '/about' }"
-          >
-            Sobre Nosotros
-          </RouterLink>
           
           <!-- Botones de usuario cuando está autenticado -->
           <div v-if="estaAutenticado" class="flex items-center space-x-4 ml-8">

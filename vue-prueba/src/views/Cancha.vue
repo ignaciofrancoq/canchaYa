@@ -64,6 +64,30 @@ const reservarCancha = async () => {
     alert('Hubo un error al intentar reservar la cancha.');
   }
 };
+
+const eliminarCancha = async () => {
+  try {
+    const authStore = useAuthStore()
+    
+    const resCancha = await axios.delete(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, {
+    });
+    
+    const usuarioActual = authStore.usuarioAutenticado && authStore.usuarioAutenticado.isAdmin;
+
+    if (!usuarioActual) {
+      alert('No tienes permisos para eliminar esta cancha.');
+      return;
+    }
+    
+    cancha.value = resCancha.data;
+  
+    alert('Cancha eliminada con éxito!' );
+
+  } catch (error) {
+    console.error('Error al eliminar cancha:', error);
+    alert('Hubo un error al intentar eliminar la cancha.');
+  }
+};
   
   const manejarErrorImagen = (event) => {
     event.target.src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible'
@@ -127,6 +151,16 @@ const reservarCancha = async () => {
             class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"
           >
             Reservar Cancha
+          </button>
+        </div>
+        <div v-if="cancha.disponible" class="h-4"></div>
+
+        <div v-if="cancha.disponible && authStore.usuarioAutenticado && authStore.usuarioAutenticado.isAdmin" class="flex justify-center">
+          <button 
+            @click="eliminarCancha"
+            class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"
+          >
+            Eliminar Cancha
           </button>
         </div>
       </div>

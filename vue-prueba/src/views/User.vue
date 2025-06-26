@@ -174,7 +174,7 @@
         </div>
 
         <!-- Información de reservas -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
+        <div v-if="authStore.usuarioAutenticado && !authStore.usuarioAutenticado.administrador" class="bg-white rounded-lg shadow-lg p-6">
           <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
             <svg class="h-6 w-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -214,7 +214,7 @@
           <h2 class="text-2xl font-semibold text-gray-900 mb-6">Acciones</h2>
           <div class="flex space-x-4">
             <router-link to="/canchas" class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition-colors font-medium">
-              Reservar Cancha
+                {{ authStore.usuarioAutenticado && authStore.usuarioAutenticado.administrador ? 'Administrar Canchas' : 'Reservar Cancha' }}
             </router-link>
             <button 
               @click="borrarUsuario"

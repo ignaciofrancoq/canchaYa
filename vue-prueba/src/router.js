@@ -17,7 +17,7 @@ const routes = [
   { path: '/usuario/:id', name: 'Usuario', component: Usuario, meta: { requiereAuth: true } },
   { path: '/estadisticas', name: 'Estadisticas', component: Estadisticas, meta: { requiereAuth: true } },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/registro', name: 'Registro', component: Registro },
+  //{ path: '/registroCancha', name: 'Registro Cancha', component: RegistoCancha, meta: { requiereAuth: true }  },
 ]
 
 const router = createRouter({

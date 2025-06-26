@@ -1,3 +1,39 @@
+<script setup>
+      import { ref, onMounted } from 'vue'
+      import axios from 'axios'
+      import { useRouter } from 'vue-router'
+      
+      const canchas = ref([])
+      const cargando = ref(true)
+      const router = useRouter()
+      
+      const obtenerCanchas = async () => {
+        try {
+          const res = await axios.get('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas')
+          canchas.value = res.data
+        } catch (error) {
+          console.error('Error al obtener canchas:', error)
+        } finally {
+          cargando.value = false
+        }
+      }
+      
+      const irACancha = (id) => {
+        router.push(`/canchas/${id}`)
+      }
+      
+      const manejarErrorImagen = (event) => {
+        event.target.src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible'
+      }
+      
+      onMounted(() => {
+        obtenerCanchas()
+      })
+      const registrarCancha = () => {
+  router.push('/')
+}
+</script>
+    
 <template>
   <div class="max-w-7xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Canchas Disponibles</h1>
@@ -57,37 +93,12 @@
       <p class="text-gray-600 text-lg">No hay canchas disponibles en este momento.</p>
     </div>
   </div>
+  <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+  <button 
+    @click="registrarCancha"
+    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+  >
+    Agregar Cancha
+  </button>
+</div>
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-
-const canchas = ref([])
-const cargando = ref(true)
-const router = useRouter()
-
-const obtenerCanchas = async () => {
-  try {
-    const res = await axios.get('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas')
-    canchas.value = res.data
-  } catch (error) {
-    console.error('Error al obtener canchas:', error)
-  } finally {
-    cargando.value = false
-  }
-}
-
-const irACancha = (id) => {
-  router.push(`/canchas/${id}`)
-}
-
-const manejarErrorImagen = (event) => {
-  event.target.src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible'
-}
-
-onMounted(() => {
-  obtenerCanchas()
-})
-</script>

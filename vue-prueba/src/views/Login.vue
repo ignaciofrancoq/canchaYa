@@ -17,10 +17,6 @@ async function iniciarSesion() {
     const response = await fetch('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios')
     const usuarios = await response.json()
 
-    // DEBUG opcional
-    console.log('Usuarios desde la API:', usuarios)
-    console.log('Ingresado:', usuario.value, contraseña.value)
-
     const usuarioEncontrado = usuarios.find(
       u => u.usuario === usuario.value.trim() && u.contrasenia === contraseña.value.trim()
     )

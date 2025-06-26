@@ -14,7 +14,6 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('usuario')
   }
 
-  // 👇 Esto ahora es una función que podés llamar desde App.vue
   function cargarUsuarioDesdeLocalStorage() {
     const guardado = localStorage.getItem('usuario')
     if (guardado) {

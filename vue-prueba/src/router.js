@@ -20,11 +20,9 @@ const router = createRouter({
   routes
 })
 
-// ✅ Middleware de navegación con carga del usuario
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // 🔒 Cargar desde localStorage si está vacío
   if (!authStore.usuarioAutenticado && localStorage.getItem('usuario')) {
     authStore.setUsuarioAutenticado(JSON.parse(localStorage.getItem('usuario')))
   }

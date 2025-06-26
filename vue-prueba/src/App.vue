@@ -9,15 +9,12 @@ const authStore = useAuthStore()
 const route = useRoute()
 const router = useRouter()
 
-// ✅ Cargar usuario desde localStorage al iniciar
 onMounted(() => {
   authStore.cargarUsuarioDesdeLocalStorage()
 })
 
-// Computed para saber si está logueado
 const estaAutenticado = computed(() => authStore.usuarioAutenticado !== null)
 
-// Botón para volver al login
 const irALogin = () => {
   router.push('/login')
 }

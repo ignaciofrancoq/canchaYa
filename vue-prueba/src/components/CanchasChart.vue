@@ -121,16 +121,9 @@ const obtenerEstadisticasReservas = async () => {
     cargando.value = true
     error.value = null
     
-    // Obtener todas las canchas
     const resCanchas = await axios.get('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas')
     const canchas = resCanchas.data
     
-    console.log('Datos de la API:', {
-      totalCanchas: canchas.length,
-      canchas: canchas
-    })
-    
-    // Usar el campo contadorReservas de cada cancha
     const estadisticas = canchas.map(cancha => ({
       id: cancha.id,
       nombre: cancha.nombre,
@@ -138,36 +131,23 @@ const obtenerEstadisticasReservas = async () => {
       totalReservas: cancha.contadorReservas || 0
     }))
     
-    // Ordenar por número de reservas (las que tienen más reservas primero)
     const canchasConEstadisticas = estadisticas
       .sort((a, b) => b.totalReservas - a.totalReservas)
     
-    // Filtrar solo las canchas que tienen al menos 1 reserva para el gráfico
     const canchasConReservas = canchasConEstadisticas.filter(cancha => cancha.totalReservas > 0)
     
-    // Calcular total de reservas
     const totalReservasCount = canchasConReservas.reduce((total, cancha) => total + cancha.totalReservas, 0)
     
     canchasMasReservadas.value = canchasConReservas
     totalReservas.value = totalReservasCount
     
-    console.log('Estadísticas calculadas:', {
-      totalCanchas: canchas.length,
-      canchasConReservas: canchasConReservas.length,
-      totalReservas: totalReservasCount,
-      estadisticas: canchasConReservas
-    })
-    
-    // Esperar a que el DOM se actualice y luego crear el gráfico
     await nextTick()
     
-    // Agregar un pequeño delay para asegurar que el canvas esté renderizado
     setTimeout(() => {
       crearGrafico()
     }, 100)
     
   } catch (err) {
-    console.error('Error al obtener estadísticas:', err)
     error.value = 'Error al cargar las estadísticas de reservas'
   } finally {
     cargando.value = false
@@ -175,29 +155,22 @@ const obtenerEstadisticasReservas = async () => {
 }
 
 const crearGrafico = () => {
-  console.log('Intentando crear gráfico...')
-  console.log('chartCanvas.value:', chartCanvas.value)
   
   if (!chartCanvas.value) {
-    console.error('Canvas no encontrado, reintentando en 200ms...')
     setTimeout(() => {
       crearGrafico()
     }, 200)
     return
   }
   
-  // Destruir gráfico anterior si existe
   if (chart.value) {
     chart.value.destroy()
   }
   
   const ctx = chartCanvas.value.getContext('2d')
   
-  // Preparar datos para el gráfico (top 10 canchas)
   const datosGrafico = canchasMasReservadas.value.slice(0, 10)
-  
-  console.log('Datos para el gráfico:', datosGrafico)
-  
+    
   const config = {
     type: tipoGrafico.value,
     data: {
@@ -258,7 +231,6 @@ const crearGrafico = () => {
   
   try {
     chart.value = new Chart(ctx, config)
-    console.log('Gráfico creado exitosamente')
   } catch (error) {
     console.error('Error al crear el gráfico:', error)
   }
@@ -270,10 +242,6 @@ const cambiarTipoGrafico = (nuevoTipo) => {
 }
 
 onMounted(() => {
-  console.log('Componente CanchasChart montado')
-  console.log('chartCanvas.value inicial:', chartCanvas.value)
-  
-  // Esperar un poco más para asegurar que el DOM esté completamente renderizado
   setTimeout(() => {
     obtenerEstadisticasReservas()
   }, 300)

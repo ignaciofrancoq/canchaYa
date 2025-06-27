@@ -80,7 +80,6 @@ import { ref, onMounted, nextTick } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import axios from 'axios'
 
-// Registrar todos los componentes de Chart.js
 Chart.register(...registerables)
 
 const chartCanvas = ref(null)
@@ -91,7 +90,6 @@ const tipoGrafico = ref('bar')
 const canchasMasReservadas = ref([])
 const totalReservas = ref(0)
 
-// Colores para el gráfico
 const colores = [
   'rgba(59, 130, 246, 0.8)',   // Azul
   'rgba(16, 185, 129, 0.8)',   // Verde

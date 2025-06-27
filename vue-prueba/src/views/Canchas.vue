@@ -30,7 +30,7 @@
         obtenerCanchas()
       })
       const registrarCancha = () => {
-  router.push('/')
+  router.push('/canchas/crear')
 }
 </script>
     

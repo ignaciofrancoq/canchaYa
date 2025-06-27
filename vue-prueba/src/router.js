@@ -8,6 +8,7 @@ import Login from './views/Login.vue'
 import Usuario from './views/User.vue'
 import Estadisticas from './views/Estadisticas.vue'
 import Registro from './views/Registro.vue'
+import CrearCancha from './views/CrearCancha.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { requiereAuth: true } },

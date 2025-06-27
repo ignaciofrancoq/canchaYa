@@ -430,12 +430,13 @@
     }
   }
 
-  const cancelarCancha = async (reservaId) => {
+const cancelarCancha = async (reservaId) => {
   if (!confirm('¿Estás seguro de que querés cancelar esta reserva?')) {
     return
   }
   
   try {
+    // Buscar la reserva que se va a cancelar para obtener el ID de la cancha
     const reservaACancelar = reservas.value.find(reserva => reserva.id === reservaId)
     
     if (!reservaACancelar) {
@@ -443,23 +444,45 @@
       return
     }
     
+    // Crear una nueva lista de reservas sin la reserva cancelada
     const nuevasReservas = reservas.value.filter(reserva => reserva.id !== reservaId)
     
+    // Actualizar el usuario completo con las reservas filtradas
     const usuarioActualizado = {
       ...usuarios.value,
       reservas: nuevasReservas
     }
     
-    // Hacer la petición PUT para actualizar el usuario en la API
-    const res = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado)
-
-    usuarios.value = res.data
-    reservas.value = res.data.reservas
-    reservas.disponible = true
+    // Hacer ambas peticiones en paralelo
+    const [resUsuario, resCancha] = await Promise.all([
+      // Actualizar el usuario removiendo la reserva
+      axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado),
+      
+      // Obtener la cancha para luego actualizarla
+      axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`)
+    ])
+    
+    // Actualizar la cancha para marcarla como disponible
+    const canchaActualizada = {
+      ...resCancha.data,
+      disponible: true
+    }
+    
+    await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`, canchaActualizada)
+    
+    // Actualizar el estado local
+    usuarios.value = resUsuario.data
+    reservas.value = resUsuario.data.reservas
+    
+    // Actualizar el store si es el usuario actual
+    if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
+      authStore.setUsuarioAutenticado(resUsuario.data)
+    }
     
     alert('Reserva cancelada correctamente')
     
   } catch (error) {
+    console.error('Error al cancelar reserva:', error)
     alert('Error al cancelar la reserva. Intenta nuevamente.')
   }
 }

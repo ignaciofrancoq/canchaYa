@@ -27,13 +27,20 @@
 const reservarCancha = async () => {
   try {
     const authStore = useAuthStore()
+    let canchaActualizada = false;
     
+    const estadoOriginalCancha = {
+      disponible: cancha.value.disponible,
+      contadorReservas: cancha.value.contadorReservas
+    };
+
     const resCancha = await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, {
       "disponible": false,
       "contadorReservas": (cancha.value.contadorReservas || 0) + 1
     });
     
     cancha.value = resCancha.data;
+    canchaActualizada = true;
     
     const usuarioActual = authStore.usuarioAutenticado;
     const reservasActuales = usuarioActual.reservas || [];
@@ -49,21 +56,30 @@ const reservarCancha = async () => {
     
     const reservasActualizadas = [...reservasActuales, nuevaReserva];
     
-    await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${authStore.usuarioAutenticado.id}`, {
-      ...usuarioActual,
-      "reservas": reservasActualizadas
-    });
-
-    const usuarioActualizado = { ...usuarioActual, reservas: reservasActualizadas };
-    authStore.setUsuarioAutenticado(usuarioActualizado);
-    
-    alert('Cancha reservada con éxito!');
+    try {
+      await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${authStore.usuarioAutenticado.id}`, {
+        ...usuarioActual,
+        "reservas": reservasActualizadas
+      });
+      
+      const usuarioActualizado = { ...usuarioActual, reservas: reservasActualizadas };
+      authStore.setUsuarioAutenticado(usuarioActualizado);
+      alert('Cancha reservada con éxito!');
+      
+    } catch (errorUsuario) {
+      console.error('Error al actualizar usuario, revirtiendo cambios en cancha:', errorUsuario);
+      
+      await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${id}`, estadoOriginalCancha);
+      cancha.value = { ...cancha.value, ...estadoOriginalCancha };
+      
+      throw new Error('Error al completar la reserva. Se revirtieron los cambios.');
+    }
     
   } catch (error) {
     console.error('Error al reservar cancha:', error);
     alert('Hubo un error al intentar reservar la cancha.');
   }
-};
+}
 
 const eliminarCancha = async () => {
   try {

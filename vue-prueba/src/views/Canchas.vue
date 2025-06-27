@@ -30,8 +30,8 @@
         obtenerCanchas()
       })
       const registrarCancha = () => {
-  router.push('/canchas/crear')
-}
+        router.push('/canchas/crear')
+      }
 </script>
     
 <template>
@@ -98,7 +98,7 @@
     @click="registrarCancha"
     class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
   >
-    Agregar Cancha
+    Crear Cancha
   </button>
 </div>
 </template>

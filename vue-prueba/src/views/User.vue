@@ -418,21 +418,16 @@
   }
   
   try {
-    // Primero liberamos todas las canchas reservadas por el usuario
     if (reservas.value && reservas.value.length > 0) {
-      // Crear array de promesas para liberar todas las canchas
       const promesasLiberarCanchas = reservas.value.map(async (reserva) => {
         try {
-          // Obtener la cancha actual
           const resCancha = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reserva.id}`)
           
-          // Marcarla como disponible
           const canchaActualizada = {
             ...resCancha.data,
             disponible: true
           }
           
-          // Actualizar la cancha en la API
           return axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reserva.id}`, canchaActualizada)
         } catch (error) {
           console.error(`Error al liberar cancha ${reserva.id}:`, error)
@@ -440,11 +435,9 @@
         }
       })
       
-      // Esperar a que se liberen todas las canchas
       await Promise.allSettled(promesasLiberarCanchas)
     }
     
-    // Después de liberar las canchas, eliminar el usuario
     await axios.delete(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`)
     
     alert('Cuenta eliminada correctamente')
@@ -453,7 +446,6 @@
     router.push('/login')
     
   } catch (error) {
-    console.error('Error al eliminar la cuenta:', error)
     alert('Error al eliminar la cuenta')
   }
 }

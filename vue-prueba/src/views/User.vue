@@ -412,6 +412,53 @@
     mensajeContraseña.value = null
   }
 
+  const cancelarCancha = async (reservaId) => {
+    if (!confirm('¿Estás seguro de que querés cancelar esta reserva?')) {
+      return
+    }
+
+    try {
+      const reservaACancelar = reservas.value.find(reserva => reserva.id === reservaId)
+      
+      if (!reservaACancelar) {
+        alert('Reserva no encontrada')
+        return
+      }
+      
+      const nuevasReservas = reservas.value.filter(reserva => reserva.id !== reservaId)
+      
+      const usuarioActualizado = {
+        ...usuarios.value,
+        reservas: nuevasReservas
+      }
+      
+      const [resUsuario, resCancha] = await Promise.all([
+        axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado),
+        axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`)
+      ])
+      
+      const canchaActualizada = {
+        ...resCancha.data,
+        disponible: true
+      }
+      
+      await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`, canchaActualizada)
+      
+      usuarios.value = resUsuario.data
+      reservas.value = resUsuario.data.reservas
+      
+      if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
+        authStore.setUsuarioAutenticado(resUsuario.data)
+      }
+      
+      alert('Reserva cancelada correctamente')
+      
+    } catch (error) {
+      console.error('Error al cancelar reserva:', error)
+      alert('Error al cancelar la reserva. Intenta nuevamente.')
+    }
+  }
+  
   const borrarUsuario = async () => {
   if (!confirm('¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) {
     return

@@ -176,11 +176,9 @@ const getColorByIndex = (index) => {
 
 const obtenerEstadisticasCompletas = async () => {
   try {
-    // Obtener canchas
     const resCanchas = await axios.get('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas')
     canchas.value = resCanchas.data
     
-    // Usar el campo contadorReservas de cada cancha
     const estadisticasCanchas = canchas.value.map(cancha => ({
       id: cancha.id,
       nombre: cancha.nombre,
@@ -188,19 +186,15 @@ const obtenerEstadisticasCompletas = async () => {
       totalReservas: cancha.contadorReservas || 0
     }))
     
-    // Ordenar por número de reservas
     const canchasConEstadisticas = estadisticasCanchas
       .sort((a, b) => b.totalReservas - a.totalReservas)
     
-    // Filtrar solo las canchas que tienen al menos 1 reserva para el top
     const canchasConReservas = canchasConEstadisticas.filter(cancha => cancha.totalReservas > 0)
     
-    // Calcular total de reservas
     const totalReservasCount = canchasConReservas.reduce((total, cancha) => total + cancha.totalReservas, 0)
     
     const canchasDisponibles = canchas.value.filter(cancha => cancha.disponible).length
     
-    // Obtener usuarios para contar usuarios con reservas
     const resUsuarios = await axios.get('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios')
     const usuarios = resUsuarios.data
     const usuariosConReservasCount = usuarios.filter(usuario => 

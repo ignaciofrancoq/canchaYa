@@ -18,14 +18,12 @@ const irALogin = () => {
 async function registrarse() {
   error.value = ''
 
-  // Validaciones básicas
   if (!usuario.value.trim() || !contraseña.value.trim()) {
     error.value = 'Por favor completa todos los campos'
     return
   }
 
   try {
-    // Primero verificar si el usuario ya existe
     const responseCheck = await axios.get('https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios')
     const usuariosExistentes = responseCheck.data
 
@@ -39,7 +37,6 @@ async function registrarse() {
       return
     }
 
-    // Crear el nuevo usuario
     const nuevoUsuario = {
       usuario: usuario.value.trim(),
       contrasenia: contraseña.value.trim(),
@@ -47,14 +44,12 @@ async function registrarse() {
       administrador: esAdministrador.value
     }
 
-    // Registrar el nuevo usuario
     const responseRegistro = await axios.post(
       'https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios',
       nuevoUsuario
     )
 
     if (responseRegistro.status === 201) {
-      // Registro exitoso - autenticar automáticamente
       authStore.setUsuarioAutenticado(responseRegistro.data)
       router.push('/')
     } else {
@@ -63,13 +58,10 @@ async function registrarse() {
 
   } catch (err) {
     if (err.response) {
-      // Error del servidor
       error.value = `Error del servidor: ${err.response.status}`
     } else if (err.request) {
-      // Error de conexión
       error.value = 'Error al conectar con el servidor'
     } else {
-      // Otro tipo de error
       error.value = 'Error inesperado al registrar usuario'
     }
     console.error('Error completo:', err)

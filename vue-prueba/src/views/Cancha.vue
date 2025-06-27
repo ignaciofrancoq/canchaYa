@@ -94,6 +94,9 @@ const eliminarCancha = async () => {
       cancha.value = resCancha.data;
       alert('Cancha eliminada con éxito!' );
       window.location.href = '/canchas';
+      setTimeout(() => {
+        router.push('/canchas');
+      }, 1000)
     } else {
       alert('No tienes permisos para eliminar esta cancha.')
     }

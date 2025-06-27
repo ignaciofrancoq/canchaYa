@@ -8,6 +8,7 @@ import Login from './views/Login.vue'
 import Usuario from './views/User.vue'
 import Estadisticas from './views/Estadisticas.vue'
 import Registro from './views/Registro.vue'
+import CrearCancha from './views/CrearCancha.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home, meta: { requiereAuth: true } },
@@ -17,7 +18,9 @@ const routes = [
   { path: '/usuario/:id', name: 'Usuario', component: Usuario, meta: { requiereAuth: true } },
   { path: '/estadisticas', name: 'Estadisticas', component: Estadisticas, meta: { requiereAuth: true } },
   { path: '/login', name: 'Login', component: Login },
-  //{ path: '/registroCancha', name: 'Registro Cancha', component: RegistoCancha, meta: { requiereAuth: true }  },
+  { path: '/registro', name: 'Registro', component: Registro },
+  { path: '/canchas/crear', name: 'CrearCancha', component: CrearCancha },
+
 ]
 
 const router = createRouter({

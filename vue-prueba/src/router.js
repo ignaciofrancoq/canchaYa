@@ -19,7 +19,7 @@ const routes = [
   { path: '/estadisticas', name: 'Estadisticas', component: Estadisticas, meta: { requiereAuth: true } },
   { path: '/login', name: 'Login', component: Login },
   { path: '/registro', name: 'Registro', component: Registro },
-  { path: '/canchas/crear', name: 'CrearCancha', component: CrearCancha },
+  { path: '/canchas/crear', name: 'CrearCancha', component: CrearCancha , meta: { requiereAuth: true } },
 
 ]
 

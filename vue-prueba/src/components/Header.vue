@@ -33,6 +33,7 @@
         </h1>
         <nav class="hidden md:flex space-x-8 items-center">
           <RouterLink 
+          v-if="estaAutenticado"
             to="/" 
             class="text-white hover:text-green-200 transition-colors duration-200 font-medium"
             :class="{ 'text-green-200 border-b-2 border-green-200': $route.path === '/' }"

@@ -10,15 +10,6 @@
       <p class="text-sm mb-2 md:mb-0">&copy; 2025 Mi Sitio Web. Todos los derechos reservados.</p>
       <nav>
         <ul class="flex gap-4 text-base">
-          <li>
-            <RouterLink
-              to="/"
-              class="hover:text-white transition-colors duration-200"
-              :class="{ 'text-[#1DB954]': $route.path === '/' }"
-            >
-              Inicio
-            </RouterLink>
-          </li>
         </ul>
       </nav>
     </div>

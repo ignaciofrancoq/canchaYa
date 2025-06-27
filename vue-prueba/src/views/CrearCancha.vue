@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useAuthStore } from '../stores/authStore.js'
+
+const authStore = useAuthStore()
 
 const router = useRouter()
 
@@ -11,6 +14,10 @@ const capacidad = ref(null)
 const foto = ref('')
 const error = ref('')
 const successMessage = ref('')
+
+const volver = () => {
+  router.push('/')
+}
 
 async function crearCancha() {
   error.value = ''
@@ -72,7 +79,7 @@ const irAtras = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8" v-if=authStore.usuarioAutenticado.administrador>
     <div class="max-w-md w-full space-y-8">
       <div>
         <div class="mx-auto h-12 w-12 bg-green-600 rounded-full flex items-center justify-center">
@@ -189,4 +196,28 @@ const irAtras = () => {
       </div>
     </div>
   </div>
+<div v-else class="text-center mt-16 max-w-md mx-auto px-4">
+  <Header/>
+  
+  <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
+    <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full">
+      <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+      </svg>
+    </div>
+    
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">Acceso Restringido</h3>
+    <p class="text-red-600 font-semibold mb-2">No autorizado</p>
+    
+    <button 
+      type="button" 
+      @click="volver"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors duration-200"
+    >
+      Volver
+    </button>
+  </div>
+  
+  <Footer/>
+</div>
 </template>

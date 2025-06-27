@@ -94,9 +94,6 @@ const eliminarCancha = async () => {
       cancha.value = resCancha.data;
       alert('Cancha eliminada con éxito!' );
       window.location.href = '/canchas';
-      setTimeout(() => {
-        router.push('/canchas');
-      }, 1000)
     } else {
       alert('No tienes permisos para eliminar esta cancha.')
     }
@@ -121,7 +118,7 @@ const eliminarCancha = async () => {
     <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Detalle de la Cancha</h1>
 
     <div v-if="cargando" class="flex justify-center items-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-grey-600"></div>
       <span class="ml-3 text-gray-600">Cargando...</span>
     </div>
 
@@ -135,7 +132,7 @@ const eliminarCancha = async () => {
         />
         <div class="absolute top-4 right-4">
           <span 
-            :class="cancha.disponible ? 'bg-green-500' : 'bg-red-500'"
+            :class="cancha.disponible ? 'bg-grey-500' : 'bg-red-500'"
             class="px-3 py-1 rounded-full text-white text-sm font-semibold"
           >
             {{ cancha.disponible ? 'Disponible' : 'Reservada' }}
@@ -166,7 +163,7 @@ const eliminarCancha = async () => {
         <div v-if="cancha.disponible && authStore.usuarioAutenticado && !authStore.usuarioAutenticado.administrador" class="flex justify-center">
           <button 
             @click="reservarCancha"
-            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"
+            class="bg-grey-600 hover:bg-grey-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"
           >
             Reservar Cancha
           </button>

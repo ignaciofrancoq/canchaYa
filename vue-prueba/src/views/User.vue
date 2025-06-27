@@ -413,77 +413,48 @@
   }
 
   const borrarUsuario = async () => {
-    if (!confirm('¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-      return
-    }
-    
-    try {
-      await axios.delete(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`)
-      
-      alert('Cuenta eliminada correctamente')
-      
-      authStore.logout()
-      router.push('/login')
-      
-    } catch (error) {
-      alert('Error al eliminar la cuenta')
-    }
-  }
-
-const cancelarCancha = async (reservaId) => {
-  if (!confirm('¿Estás seguro de que querés cancelar esta reserva?')) {
+  if (!confirm('¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) {
     return
   }
   
   try {
-    // Buscar la reserva que se va a cancelar para obtener el ID de la cancha
-    const reservaACancelar = reservas.value.find(reserva => reserva.id === reservaId)
-    
-    if (!reservaACancelar) {
-      alert('Reserva no encontrada')
-      return
-    }
-    
-    // Crear una nueva lista de reservas sin la reserva cancelada
-    const nuevasReservas = reservas.value.filter(reserva => reserva.id !== reservaId)
-    
-    // Actualizar el usuario completo con las reservas filtradas
-    const usuarioActualizado = {
-      ...usuarios.value,
-      reservas: nuevasReservas
-    }
-    
-    // Hacer ambas peticiones en paralelo
-    const [resUsuario, resCancha] = await Promise.all([
-      // Actualizar el usuario removiendo la reserva
-      axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`, usuarioActualizado),
+    // Primero liberamos todas las canchas reservadas por el usuario
+    if (reservas.value && reservas.value.length > 0) {
+      // Crear array de promesas para liberar todas las canchas
+      const promesasLiberarCanchas = reservas.value.map(async (reserva) => {
+        try {
+          // Obtener la cancha actual
+          const resCancha = await axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reserva.id}`)
+          
+          // Marcarla como disponible
+          const canchaActualizada = {
+            ...resCancha.data,
+            disponible: true
+          }
+          
+          // Actualizar la cancha en la API
+          return axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reserva.id}`, canchaActualizada)
+        } catch (error) {
+          console.error(`Error al liberar cancha ${reserva.id}:`, error)
+          // No lanzamos el error para que continúe con las demás canchas
+        }
+      })
       
-      // Obtener la cancha para luego actualizarla
-      axios.get(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`)
-    ])
-    
-    // Actualizar la cancha para marcarla como disponible
-    const canchaActualizada = {
-      ...resCancha.data,
-      disponible: true
+      // Esperar a que se liberen todas las canchas
+      await Promise.allSettled(promesasLiberarCanchas)
     }
     
-    await axios.put(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/canchas/${reservaACancelar.id}`, canchaActualizada)
+    // Después de liberar las canchas, eliminar el usuario
+    await axios.delete(`https://684b71a9ed2578be881b5f68.mockapi.io/cancha/usuarios/${id}`)
     
-    // Actualizar el estado local
-    usuarios.value = resUsuario.data
-    reservas.value = resUsuario.data.reservas
+    alert('Cuenta eliminada correctamente')
     
-    // Actualizar el store si es el usuario actual
-    if (authStore.usuarioAutenticado && authStore.usuarioAutenticado.id === id) {
-      authStore.setUsuarioAutenticado(resUsuario.data)
-    }
-    
-    alert('Reserva cancelada correctamente')
+    authStore.logout()
+    router.push('/login')
     
   } catch (error) {
-    console.error('Error al cancelar reserva:', error)
-    alert('Error al cancelar la reserva. Intenta nuevamente.')
+    console.error('Error al eliminar la cuenta:', error)
+    alert('Error al eliminar la cuenta')
   }
 }
 

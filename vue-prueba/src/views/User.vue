@@ -190,7 +190,10 @@
                   <p class="text-sm text-gray-500"> {{ reserva.direccion }}</p>
                 </div>
                 <div class="flex space-x-2">
-                  <button @click="cancelarCancha(reserva.id)" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                  <button 
+                    @click="cancelarCancha(reserva.id)" 
+                    class="bg-red-600 hover:bg-red-800 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors"
+                  >
                     Cancelar
                   </button>
                 </div>
@@ -458,7 +461,7 @@
       alert('Error al cancelar la reserva. Intenta nuevamente.')
     }
   }
-  
+
   const borrarUsuario = async () => {
   if (!confirm('¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) {
     return

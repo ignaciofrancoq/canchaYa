@@ -132,7 +132,7 @@ const eliminarCancha = async () => {
         />
         <div class="absolute top-4 right-4">
           <span 
-            :class="cancha.disponible ? 'bg-grey-500' : 'bg-red-500'"
+            :class="cancha.disponible ? 'bg-green-500' : 'bg-red-500'"
             class="px-3 py-1 rounded-full text-white text-sm font-semibold"
           >
             {{ cancha.disponible ? 'Disponible' : 'Reservada' }}
@@ -163,8 +163,7 @@ const eliminarCancha = async () => {
         <div v-if="cancha.disponible && authStore.usuarioAutenticado && !authStore.usuarioAutenticado.administrador" class="flex justify-center">
           <button 
             @click="reservarCancha"
-            class="bg-grey-600 hover:bg-grey-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"
-          >
+                  class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105 shadow-lg"      >
             Reservar Cancha
           </button>
         </div>

@@ -2,10 +2,13 @@
       import { ref, onMounted } from 'vue'
       import axios from 'axios'
       import { useRouter } from 'vue-router'
-      
+      import { useAuthStore } from '../stores/authStore.js'
+
       const canchas = ref([])
       const cargando = ref(true)
       const router = useRouter()
+      const authStore = useAuthStore()
+
       
       const obtenerCanchas = async () => {
         try {
@@ -94,7 +97,7 @@
     </div>
   </div>
   <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-  <button 
+  <button v-if="authStore.usuarioAutenticado.administrador"
     @click="registrarCancha"
     class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
   >

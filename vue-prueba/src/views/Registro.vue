@@ -70,8 +70,8 @@ async function registrarse() {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+  <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style="background-image: url('https://img.freepik.com/foto-gratis/medio-ambiente-deportivo-rugby-archivado_23-2151891713.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="max-w-md w-full space-y-8 bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl">
       <div>
         <div class="mx-auto h-12 w-12 bg-green-600 rounded-full flex items-center justify-center">
           <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

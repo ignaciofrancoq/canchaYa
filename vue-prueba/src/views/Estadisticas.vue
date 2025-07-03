@@ -1,19 +1,16 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8">
+  <div class="min-h-screen bg-white bg-opacity-90 py-8" style="background-image: url('https://img.freepik.com/foto-gratis/medio-ambiente-deportivo-rugby-archivado_23-2151891713.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">Estadísticas de Reservas</h1>
-        <p class="text-lg text-gray-600">Análisis de las canchas más populares y tendencias de reservas</p>
+        <h1 class="text-4xl font-bold text-white mb-4">Estadísticas de Reservas</h1>
+        <p class="text-lg text-white">Análisis de las canchas más populares y tendencias de reservas</p>
       </div>
 
-      <!-- Gráfico principal -->
       <div class="mb-8">
         <CanchasChart />
       </div>
 
-      <!-- Estadísticas adicionales -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Total de canchas -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <div class="flex items-center">
             <div class="bg-blue-100 rounded-full p-3">
@@ -28,7 +25,6 @@
           </div>
         </div>
 
-        <!-- Total de reservas -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <div class="flex items-center">
             <div class="bg-green-100 rounded-full p-3">
@@ -43,7 +39,6 @@
           </div>
         </div>
 
-        <!-- Canchas disponibles -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <div class="flex items-center">
             <div class="bg-yellow-100 rounded-full p-3">
@@ -58,7 +53,6 @@
           </div>
         </div>
 
-        <!-- Promedio de reservas -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <div class="flex items-center">
             <div class="bg-purple-100 rounded-full p-3">
@@ -74,9 +68,7 @@
         </div>
       </div>
 
-      <!-- Información adicional -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Canchas con más reservas -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
             <svg class="h-5 w-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +100,6 @@
           </div>
         </div>
 
-        <!-- Información del sistema -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
             <svg class="h-5 w-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

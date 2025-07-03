@@ -38,12 +38,13 @@
 </script>
     
 <template>
-  <div class="max-w-7xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Canchas Disponibles</h1>
+  <div class="min-h-screen bg-white bg-opacity-90" style="background-image: url('https://img.freepik.com/foto-gratis/medio-ambiente-deportivo-rugby-archivado_23-2151891713.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-white mb-8 text-center">Canchas Disponibles</h1>
 
     <div v-if="cargando" class="flex justify-center items-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-      <span class="ml-3 text-gray-600">Cargando canchas...</span>
+      <span class="ml-3 text-white">Cargando canchas...</span>
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -95,13 +96,15 @@
       </svg>
       <p class="text-gray-600 text-lg">No hay canchas disponibles en este momento.</p>
     </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+      <button v-if="authStore.usuarioAutenticado.administrador"
+        @click="registrarCancha"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+      >
+        Crear Cancha
+      </button>
+    </div>
+    </div>
   </div>
-  <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-  <button v-if="authStore.usuarioAutenticado.administrador"
-    @click="registrarCancha"
-    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
-  >
-    Crear Cancha
-  </button>
-</div>
 </template>

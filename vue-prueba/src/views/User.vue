@@ -1,13 +1,12 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8">
+  <div class="min-h-screen bg-white bg-opacity-90 py-8" style="background-image: url('https://img.freepik.com/foto-gratis/medio-ambiente-deportivo-rugby-archivado_23-2151891713.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div v-if="cargando" class="text-center py-12">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
-        <p class="mt-4 text-gray-600">Cargando información del usuario...</p>
+        <p class="mt-4 text-white">Cargando información del usuario...</p>
       </div>
 
       <div v-else-if="usuarios" class="space-y-8">
-        <!-- Header del perfil -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <div class="flex items-center space-x-4">
             <div class="bg-green-600 rounded-full p-4">
@@ -31,7 +30,6 @@
           </div>
         </div>
 
-        <!-- Formulario de edición de perfil -->
         <div v-if="editarPerfil" class="bg-white rounded-lg shadow-lg p-6">
           <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
             <svg class="h-6 w-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +38,6 @@
             Editar Información Personal
           </h2>
 
-          <!-- Formulario para cambiar nombre -->
           <div class="mb-8">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Cambiar Nombre</h3>
             <form @submit.prevent="cambiarNombre" class="space-y-4">
@@ -96,10 +93,8 @@
             </form>
           </div>
 
-          <!-- Separador -->
           <div class="border-t border-gray-200 my-8"></div>
 
-          <!-- Formulario para cambiar contraseña -->
           <div>
             <h3 class="text-lg font-medium text-gray-900 mb-4">Cambiar Contraseña</h3>
             <form @submit.prevent="cambiarContraseña" class="space-y-4">
@@ -173,7 +168,6 @@
           </div>
         </div>
 
-        <!-- Información de reservas -->
         <div v-if="authStore.usuarioAutenticado && !authStore.usuarioAutenticado.administrador" class="bg-white rounded-lg shadow-lg p-6">
           <h2 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
             <svg class="h-6 w-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,7 +206,6 @@
           </div>
         </div>
 
-        <!-- Acciones del usuario -->
         <div class="bg-white rounded-lg shadow-lg p-6">
           <h2 class="text-2xl font-semibold text-gray-900 mb-6">Acciones</h2>
           <div class="flex space-x-4">

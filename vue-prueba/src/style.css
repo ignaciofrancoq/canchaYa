@@ -7,6 +7,8 @@ html, body {
   padding: 0;
 }
 
+/* Global background for the app - removed to avoid conflicts */
+
 body {
   font-family: 'Nunito', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;

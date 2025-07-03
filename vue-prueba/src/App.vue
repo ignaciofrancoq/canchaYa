@@ -21,7 +21,7 @@ const irALogin = () => {
 </script>
 
 <template>
-  <div class="min-h-screen w-full flex flex-col bg-gray-50" v-if="estaAutenticado || route.path === '/login' || route.path === '/registro'">
+  <div class="min-h-screen w-full flex flex-col" style="background-image: url('https://img.freepik.com/foto-gratis/medio-ambiente-deportivo-rugby-archivado_23-2151891713.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;" v-if="estaAutenticado || route.path === '/login' || route.path === '/registro'">
 
     <Header/>
 

@@ -114,12 +114,13 @@ const eliminarCancha = async () => {
   </script>
 
 <template>
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Detalle de la Cancha</h1>
+  <div class="min-h-screen bg-white bg-opacity-90" style="background-image: url('https://img.freepik.com/foto-gratis/medio-ambiente-deportivo-rugby-archivado_23-2151891713.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-white mb-8 text-center">Detalle de la Cancha</h1>
 
     <div v-if="cargando" class="flex justify-center items-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-grey-600"></div>
-      <span class="ml-3 text-gray-600">Cargando...</span>
+      <span class="ml-3 text-white">Cargando...</span>
     </div>
 
     <div v-else-if="cancha" class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -185,6 +186,7 @@ const eliminarCancha = async () => {
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"></path>
       </svg>
       <p class="text-gray-600 text-lg">No se encontró la cancha.</p>
+    </div>
     </div>
   </div>
 </template>
